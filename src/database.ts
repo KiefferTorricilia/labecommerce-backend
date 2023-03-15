@@ -42,3 +42,32 @@ export const purchases: TPurchase[] = [
         totalPrice: products[0].price * 5
     }
 ]
+
+
+
+
+export function createUser (id: string, email: string, password:string):void {
+    users.push({
+        id: id,
+        email: email,
+        password: password
+    })
+    console.log("Cadastro realizado com sucesso")
+    console.table(users)
+}
+
+
+export function getAllUsers ():void {
+    console.log(users)
+}
+
+export function createProduct (id: string, name: string, price: number, category: Category ):void {
+    console.log(products)
+    products.push({
+        id: id,
+        name: name,
+        price: price,
+        category: category
+    })
+    console.log(products)
+}
