@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProduct = exports.getAllUsers = exports.createUser = exports.purchases = exports.products = exports.users = void 0;
+exports.getProductById = exports.getAllProducst = exports.createProduct = exports.getAllUsers = exports.createUser = exports.purchases = exports.products = exports.users = void 0;
 const types_1 = require("./types");
 exports.users = [
     {
@@ -57,14 +57,24 @@ function getAllUsers() {
 }
 exports.getAllUsers = getAllUsers;
 function createProduct(id, name, price, category) {
-    console.log(exports.products);
     exports.products.push({
         id: id,
         name: name,
         price: price,
         category: category
     });
-    console.log(exports.products);
+    console.table(exports.products);
 }
 exports.createProduct = createProduct;
+function getAllProducst() {
+    console.table(exports.products);
+}
+exports.getAllProducst = getAllProducst;
+function getProductById(id) {
+    const result = exports.products.filter((element) => {
+        return element.id === id;
+    });
+    console.log(result);
+}
+exports.getProductById = getProductById;
 //# sourceMappingURL=database.js.map

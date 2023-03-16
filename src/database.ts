@@ -62,12 +62,23 @@ export function getAllUsers ():void {
 }
 
 export function createProduct (id: string, name: string, price: number, category: Category ):void {
-    console.log(products)
     products.push({
         id: id,
         name: name,
         price: price,
         category: category
     })
-    console.log(products)
+    console.table(products)
+}
+
+export function getAllProducst ():void {
+    console.table(products)
+}
+
+export function getProductById (id:string) {
+    const result = products.filter(
+        (element) => {
+            return element.id === id
+    })
+    console.log(result)
 }
