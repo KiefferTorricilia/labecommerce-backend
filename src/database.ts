@@ -82,3 +82,33 @@ export function getProductById (id:string) {
     })
     console.log(result)
 }
+
+export function queryProductsByName (q:string):void {
+    const lista: TProduct[] = []
+    const result = products.filter((element) => {
+        if(element.name.toLowerCase() === q.toLowerCase()){
+            lista.push(element)
+        }
+    })
+    console.log(result)
+    console.log(lista)
+}
+
+export function createPurchase (userId:string, productId: string, quantity: number, totalPrice: number ):void {
+    purchases.push({
+        userId: userId,
+        productId: productId,
+        quantity: quantity,
+        totalPrice: totalPrice
+    })
+    console.log("Compra realizada com sucesso")
+    console.table(purchases)
+}
+
+export function getAllPurchasesFromUserId (userId: string) {
+    const result = purchases.filter((element) => {
+        if(element.userId === userId ){
+            console.log(element)
+        }
+    })
+}

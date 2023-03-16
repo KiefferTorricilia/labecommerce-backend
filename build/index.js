@@ -7,4 +7,7 @@ const types_1 = require("./types");
 (0, database_1.createProduct)("3", "Monitor 14 Polegadas", 800, types_1.Category.ELECTRONICS);
 (0, database_1.getAllProducst)();
 (0, database_1.getProductById)("1");
+(0, database_1.queryProductsByName)("CenOurA");
+(0, database_1.createPurchase)("1", "2", 10, 20);
+(0, database_1.getAllPurchasesFromUserId)("2");
 //# sourceMappingURL=index.js.map

@@ -1,4 +1,4 @@
-import {getAllUsers, createUser, createProduct, getAllProducst, getProductById} from './database'
+import {getAllUsers, createUser, createProduct, getAllProducst, getProductById, queryProductsByName, createPurchase, getAllPurchasesFromUserId} from './database'
 import { Category } from './types'
 
 
@@ -7,3 +7,6 @@ getAllUsers()
 createProduct("3", "Monitor 14 Polegadas", 800, Category.ELECTRONICS)
 getAllProducst()
 getProductById("1")
+queryProductsByName("CenOurA")
+createPurchase("1", "2", 10, 20)
+getAllPurchasesFromUserId("1")

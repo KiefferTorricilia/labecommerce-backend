@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductById = exports.getAllProducst = exports.createProduct = exports.getAllUsers = exports.createUser = exports.purchases = exports.products = exports.users = void 0;
+exports.getAllPurchasesFromUserId = exports.createPurchase = exports.queryProductsByName = exports.getProductById = exports.getAllProducst = exports.createProduct = exports.getAllUsers = exports.createUser = exports.purchases = exports.products = exports.users = void 0;
 const types_1 = require("./types");
 exports.users = [
     {
@@ -77,4 +77,35 @@ function getProductById(id) {
     console.log(result);
 }
 exports.getProductById = getProductById;
+function queryProductsByName(q) {
+    const lista = [];
+    const result = exports.products.filter((element) => {
+        if (element.name.toLowerCase() === q.toLowerCase()) {
+            lista.push(element);
+        }
+    });
+    console.log(result);
+    console.log(lista);
+}
+exports.queryProductsByName = queryProductsByName;
+function createPurchase(userId, productId, quantity, totalPrice) {
+    exports.purchases.push({
+        userId: userId,
+        productId: productId,
+        quantity: quantity,
+        totalPrice: totalPrice
+    });
+    console.log("Compra realizada com sucesso");
+    console.table(exports.purchases);
+}
+exports.createPurchase = createPurchase;
+function getAllPurchasesFromUserId(userId) {
+    console.log("Estou na última");
+    const result = exports.purchases.filter((element) => {
+        if (element.userId === userId) {
+            console.log(element);
+        }
+    });
+}
+exports.getAllPurchasesFromUserId = getAllPurchasesFromUserId;
 //# sourceMappingURL=database.js.map
