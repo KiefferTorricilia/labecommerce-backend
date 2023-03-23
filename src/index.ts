@@ -1,5 +1,5 @@
-import { getAllUsers, createUser, createProduct, getAllProducst, getProductById, queryProductsByName, createPurchase, getAllPurchasesFromUserId, users, products } from './database'
-import { Category } from './types'
+import { getAllUsers, createUser, createProduct, getAllProducst, getProductById, queryProductsByName, createPurchase, getAllPurchasesFromUserId, users, products, purchases } from './database'
+import { Category, TProduct, TPurchase, TUser } from './types'
 import express, { Request, Response } from 'express'
 import cors from "cors";
 
@@ -36,4 +36,57 @@ app.get("/products/search", (req: Request, res: Response) => {
         products
     
     res.status(200).send(result)
+})
+
+app.post("/users", (req: Request, res: Response) => {
+
+    const id: string = req.body.id
+    const email: string = req.body.email
+    const password: string = req.body.password
+
+    const newUsers: TUser = {
+        id, email, password
+    }
+    users.push(newUsers)
+
+    console.log(users)
+
+    res.status(201).send("Usuário cadastro com sucesso")
+})
+
+app.post("/products", (req: Request, res: Response) => {
+
+    const id: string = req.body.id
+    const name: string = req.body.name
+    const price: number = req.body.price
+    const category: Category = req.body.category
+
+    const newProduct: TProduct = {
+        id, name, price, category
+    }
+
+    products.push(newProduct)
+    console.log(products)
+
+    res.status(201).send("produto criado com sucesso")
+
+})
+
+app.post("/purchases", (req: Request, res: Response) => {
+
+    const userId: string = req.body.userId;
+    const productId: string = req.body.productId;
+    const quantity: number = req.body.quantity;
+    const totalPrice: number = req.body.totalPrice
+
+    const newPurchase: TPurchase = {
+        userId, productId, quantity, totalPrice
+    }
+
+    purchases.push(newPurchase)
+    console.log(purchases)
+
+    res.status(201).send("Compra feita com sucesso")
+
+
 })
