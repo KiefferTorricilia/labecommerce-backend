@@ -100,7 +100,6 @@ function createPurchase(userId, productId, quantity, totalPrice) {
 }
 exports.createPurchase = createPurchase;
 function getAllPurchasesFromUserId(userId) {
-    console.log("Estou na última");
     const result = exports.purchases.filter((element) => {
         if (element.userId === userId) {
             console.log(element);
