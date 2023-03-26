@@ -165,7 +165,7 @@ app.post("/users", (req: Request, res: Response) => {
             throw new Error("O usuário cadastrado não pode possuir o email de um já existente.")
         }
         if (!password) {
-            throw new Error("É necessário cadastrar uma senha.")
+            throw new Error("É necessário cadastrar uma password.")
         }
 
         const newUsers: TUser = {
@@ -215,15 +215,15 @@ app.post("/products", (req: Request, res: Response) => {
 
         if (name === undefined) {
             res.status(400)
-            throw new Error("É necessário cadastrar um nome.")
+            throw new Error("É necessário cadastrar um name.")
         }
         if (price === undefined) {
             res.status(400);
-            throw new Error("É necessário inserir o preço.")
+            throw new Error("É necessário inserir o price.")
         }
         if (category === undefined) {
             res.status(400);
-            throw new Error("É necessário inserir a categoria.")
+            throw new Error("É necessário inserir a category.")
         }
 
         const newProduct: TProduct = {
@@ -335,7 +335,7 @@ app.put("/users/:id", (req: Request, res: Response) => {
         }
         if(!newPassword){
             res.status(400);
-            throw new Error("É necessário inserir uma senha");
+            throw new Error("É necessário inserir uma password");
         }
 
         const result = users.find((element) => element.id === id);
