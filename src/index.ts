@@ -1,4 +1,3 @@
-import { getAllUsers, createUser, createProduct, getAllProducst, getProductById, queryProductsByName, createPurchase, getAllPurchasesFromUserId, users, products, purchases } from './database'
 import { Category, TProduct, TPurchase, TUser } from './types'
 import express, { Request, Response } from 'express'
 import cors from "cors";
