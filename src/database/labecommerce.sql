@@ -2,8 +2,10 @@
 CREATE TABLE 
     users(
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
+        name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        created_at TEXT DEFAULT(DATETIME('now', 'localtime')) NOT NULL
 );
 
 INSERT INTO users(id, email, password)
@@ -19,7 +21,8 @@ CREATE TABLE
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
         name TEXT NOT NULL,
         price REAL NOT NULL,
-        category TEXT NOT NULL
+        description TEXT NOT NULL,
+        image_url TEXT NOT NULL
     );
 
 INSERT INTO products(id, name, price, category)
@@ -34,10 +37,10 @@ DROP TABLE products;
 
 CREATE TABLE purchases(
     id TEXT UNIQUE NOT NULL PRIMARY KEY,
-    total_price REAL NOT NULL,
-    paid INTEGER NOT NULL,
-    delivered_at TEXT DATETIME,
     buyer_id TEXT NOT NULL,
+    total_price REAL NOT NULL,
+    created_at TEXT DATETIME,
+    paid INTEGER NOT NULL,
     FOREIGN KEY (buyer_id) REFERENCES users(id)
 );
 
@@ -78,4 +81,3 @@ VALUES
 SELECT * FROM purchases
 INNER JOIN purchases_products
 ON purchases_products.purchase_id = purchases.id;
-
