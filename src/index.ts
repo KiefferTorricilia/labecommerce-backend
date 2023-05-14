@@ -2,6 +2,7 @@ import { Category, TProduct, TPurchase, TUser } from './types'
 import express, { Request, Response } from 'express'
 import cors from "cors";
 import { db } from './database/knex';
+import { request } from 'http';
 
 const app = express();
 
@@ -45,11 +46,24 @@ app.get("/users", async (req: Request, res: Response) => {
 app.get("/users/:id/purchases", async (req: Request, res: Response) => {
     try {
 
-        const result = await db.raw(`
-        SELECT * FROM users
-        INNER JOIN purchases
-        on purchases.buyer_id = users.id
-        `)
+        const result = await db("users").select("*").innerJoin(
+            "purchases",
+            "purchases.buyer_id",
+            "users.id"
+        )
+
+
+        // .innerJoin(
+        //     "bands",
+        //     "songs.band_id",
+        //     "bands.id"
+        // )
+
+        // const result = await db.raw(`
+        // SELECT * FROM users
+        // INNER JOIN purchases
+        // on purchases.buyer_id = users.id
+        // `)
 
         if(result.length < 1){
             res.status(400)
@@ -76,9 +90,11 @@ app.get("/users/:id/purchases", async (req: Request, res: Response) => {
 app.get("/products", async (req: Request, res: Response) => {
     try {
 
-        const result = await db.raw(`
-        SELECT * FROM products
-        `)
+        const result = await db("products")
+
+        // const result = await db.raw(`
+        // SELECT * FROM products
+        // `)
 
         if(result.length < 1){
             res.status(400)
@@ -107,10 +123,12 @@ app.get("/products/search", async (req: Request, res: Response) => {
 
         const name = req.query.name as string
 
-        const result = await db.raw(`
-        SELECT * FROM products
-        WHERE name = "${name}";
-        `)
+        const result = await db("products").select("*").where({name: name})
+
+        // const result = await db.raw(`
+        // SELECT * FROM products
+        // WHERE name = "${name}";
+        // `)
 
         if(result.length < 1){
             res.status(400)
@@ -164,6 +182,53 @@ app.get("/products/:id", async (req: Request, res: Response) => {
             res.send("Erro inesperado")
         }
     }
+})
+
+app.get("/purchases", async (req: Request, res: Response) => {
+    try {
+
+        const result = await db("purchases")
+
+        res.status(200).send(result)
+        
+    } catch (error) {
+        console.log(error)
+
+        if (req.statusCode === 200) {
+            res.status(500)
+        }
+
+        if (error instanceof Error) {
+            res.send(error.message)
+        } else {
+            res.send("Erro inesperado")
+        }
+    }
+})
+
+
+app.get("/purchases/:id", async (req: Request, res: Response) => {
+  try {
+
+    const id = req.params.id
+
+    const result = await db("purchases").where({id: id})
+
+    res.status(200).send(result)
+    
+  } catch (error) {
+    console.log(error)
+
+    if (req.statusCode === 200) {
+        res.status(500)
+    }
+
+    if (error instanceof Error) {
+        res.send(error.message)
+    } else {
+        res.send("Erro inesperado")
+    }
+  }
 })
 
 app.post("/users", async (req: Request, res: Response) => {
@@ -234,6 +299,48 @@ app.post("/products", async (req: Request, res: Response) => {
     }
 })
 
+app.put("/products/:id", async (req: Request, res: Response) => {
+    try {
+
+        const id = req.params.id;
+        const newName = req.body.name;
+        const newPrice = req.body.price; 
+        const newDescription = req.body.description
+        const newImage_url = req.body.image_url;
+
+        const [ products ] = await db("products").where({id: id})
+
+        if(products){
+
+            await db.update({
+                name: newName || products.name,
+                price: newPrice || products.price,
+                description: newDescription || products.description,
+                image_url: newImage_url || products.image_url
+            }).from("products").where({id: id})
+
+        } else {
+            res.status(404)
+            throw new Error("'id' não encontrada")
+        }
+
+        res.status(200).send("Produto alterado.")
+        
+    } catch (error) {
+        console.log(error)
+
+        if (req.statusCode === 200) {
+            res.status(500)
+        }
+
+        if (error instanceof Error) {
+            res.send(error.message)
+        } else {
+            res.send("Erro inesperado")
+        }
+    }
+})
+
 app.post("/purchases", async (req: Request, res: Response) => {
     try {
 
@@ -261,6 +368,39 @@ app.post("/purchases", async (req: Request, res: Response) => {
             res.send("Erro inesperado")
         }
     }
+})
+
+app.delete("/purchases/:id", async (req: Request, res: Response) => {
+
+  try {
+
+    const id = req.params.id
+
+    const [ purchases ] = await db("purchases").where({id: id})
+
+    if(!purchases){
+        res.status(404);
+        throw new Error("A compra não existe");
+    }
+
+    await db.delete().from("purchases").where({id: id})
+
+   res.status(200).send("Compra deletada com sucesso")
+    
+  } catch (error) {
+    console.log(error)
+
+    if (req.statusCode === 200) {
+        res.status(500)
+    }
+
+    if (error instanceof Error) {
+        res.send(error.message)
+    } else {
+        res.send("Erro inesperado")
+    }
+  }  
+  
 })
 
 
